@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <div id="maincontainer"></div>
+        <script>
+
+            let isTime = false;
+
+            // Create a new h1 title
+            const titleHead = document.createElement("h1");
+            titleHead.textContent = "Exercise 04: JavaScript&DOM";
+            document.getElementById("maincontainer").appendChild(titleHead);
+
+            // create button
+            const dateButton = document.createElement("button");
+            dateButton.textContent = "Click me to display Date and Time";
+
+            // when click the button
+            dateButton.onclick = function () {
+                if (!isTime) {
+                    webWorker.postMessage('start')
+                    webWorker.onmessage = function (event) {
+                        dateButton.style.position = 'fixed';
+                        dateButton.style.right = '0';
+                        dateButton.style.top = '0';
+                        dateButton.style.border = '2px solid black';
+                        dateButton.style.color = event.data.colorPair[0];
+                        dateButton.style.backgroundColor = event.data.colorPair[1];
+                        dateButton.textContent = event.data.dateTime;
+                        isTime = true;
+                    }
+                } else {
+                    webWorker.postMessage('stop')
+                    dateButton.style.position = 'static';
+                    isTime = false;
+                }
+            }
+
+            document.getElementById("maincontainer").appendChild(dateButton);
+
+            // create info div container
+            const infoContainer = document.createElement("div");
+            document.getElementById("maincontainer").appendChild(infoContainer);
+
+            // add top margin
+            infoContainer.style.marginTop = "20px";
+            
+            // create info a
+            const infoA = document.createElement("a");
+            infoA.textContent = "Personal Info";
+            infoA.href = "#";
+            document.getElementById("maincontainer").appendChild(infoA);
+
+            // create info contents
+            const ulInfo = document.createElement("ul");
+            ulInfo.style.display = "none";
+            document.getElementById("maincontainer").appendChild(ulInfo);
+
+            // create info list
+            infoItems = [
+                {text: "Woranuch Pluengnuch, ID: 66010733"},
+                {text: "Subject: Web Application Development"},
+                {text: "Semester: 2/2024"},
+            ];
+
+            infoItems.forEach(infoItems => {
+                const li = document.createElement("li");
+                li.textContent = infoItems.text;
+                ulInfo.appendChild(li);
+            })
+
+            // change color of a
+            infoA.style.color = "violet";
+
+            // when hover
+            infoA.addEventListener("mouseenter", () => {
+                infoA.style.color = "blue";
+                infoA.style.backgroundColor = "yellow";
+            }); 
+
+            // when leave
+            infoA.addEventListener("mouseleave", () => {
+                infoA.style.color = "violet";
+                infoA.style.backgroundColor = "white";
+            })
+
+            // when click
+            infoA.addEventListener("click", () => {
+                if (ulInfo.style.display === "none") {
+                    ulInfo.style.display = "block";
+                } else {
+                    ulInfo.style.display = "none";
+                }
+            });
+
+            // create a new h1 title
+            const titleSnap = document.createElement("h1");
+            titleSnap.textContent = "Snapshots";
+            document.getElementById("maincontainer").appendChild(titleSnap);
+
+            // create ul container
+            const ulSnap = document.createElement("ul");
+            document.getElementById("maincontainer").appendChild(ulSnap);
+
+            // create li
+            const liItems = [
+                {text: "Fireworks", href:"https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/hollandmi/cmajor1981_Instagram_2679_ig_17887889794368728_878fa47d-1037-491d-b9dd-3988483dd0df.jpg"},
+                {text: "Crest", href:"https://cdn.vectorstock.com/i/1000v/27/72/vip-premium-membership-golden-badge-on-white-vector-49772772.jpg"},
+                {text: "Action", href:"https://islandsportspt.com/wp-content/uploads/2017/08/eastnorthportphysicaltherapist.jpg"},
+                {text: "Buffalo", href:"https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i3Yp1mXpDIMA/v2/-1x-1.webp"},
+            ];
+
+            liItems.forEach(liItems => {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.textContent = liItems.text;
+                a.href = liItems.href;
+                a.style.color = 'blue';
+                li.appendChild(a);
+                ulSnap.appendChild(li);
+
+                // when click the li
+                a.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    img.src = liItems.href;
+                    img.style.width = "400px";
+                    img.style.height = "300px";
+                });
+            })
+
+            // create iamge
+            const img = document.createElement("img");
+            img.src = "https://www.ce.kmitl.ac.th/api/main/banner/download/1";
+            img.style.width = "700px";
+            img.style.height = "250px";
+            document.getElementById("maincontainer").appendChild(img);
+
+            // web worker
+            const webWorker = new Worker("worker.js");   // create web worker
+
+        </script>
+    </body>
+</html>
