@@ -12,9 +12,20 @@
             titleHead.textContent = "Exercise 04: JavaScript&DOM";
             document.getElementById("maincontainer").appendChild(titleHead);
 
+            // create div container
+            const divContainer = document.createElement("div");
+            divContainer.id = "button-placeholder";
+            document.getElementById("maincontainer").appendChild(divContainer);
+
+            // set width and height of div container
+            document.getElementById("button-placeholder").style.height = "20px";
+            document.getElementById("button-placeholder").style.width = "500px";
+
             // create button
             const dateButton = document.createElement("button");
             dateButton.textContent = "Click me to display Date and Time";
+
+            divContainer.appendChild(dateButton);
 
             // when click the button
             dateButton.onclick = function () {
@@ -36,8 +47,6 @@
                     isTime = false;
                 }
             }
-
-            document.getElementById("maincontainer").appendChild(dateButton);
 
             // create info div container
             const infoContainer = document.createElement("div");

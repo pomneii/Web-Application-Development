@@ -1,17 +1,26 @@
 let interval;
 
 onmessage = (event) => {
+    
     if (event.data === 'start') {
+        const colors = [
+            ['red', 'cyan'],
+            ['white', 'green'],
+            ['white', 'blue'],
+            ['pink', 'green'],
+            ['green', 'red'],
+            ['cyan', 'red']
+        ];
+
+        let colorIndex = 0;
+        
         interval = setInterval(() => {
             const dateTime = new Date();
-
-            const colorPair = [
-                `#${Math.floor(Math.random() * 16777215).toString(16)}`, // Random colors
-                `#${Math.floor(Math.random() * 16777215).toString(16)}`  // Random colors
-            ];
-
+            const colorPair = colors[colorIndex % colors.length];
             postMessage({ dateTime, colorPair });
+            colorIndex++;
         }, 1000);
+
     } else if (event.data === 'stop') {
         clearInterval(interval);
     }
